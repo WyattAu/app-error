@@ -25,8 +25,8 @@ pub enum RecoveryClass {
     Reconciliation,
 }
 
-impl std::fmt::Display for RecoveryClass {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Display for RecoveryClass {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             Self::Retryable => write!(f, "retryable"),
             Self::UserAction => write!(f, "user_action"),

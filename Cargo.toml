@@ -1,6 +1,6 @@
 [package]
 name = "error-classify"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 rust-version = "1.85"
 license = "MIT OR Apache-2.0"
@@ -10,9 +10,9 @@ keywords = ["error", "thiserror", "recovery", "application"]
 categories = ["rust-patterns"]
 
 [dependencies]
-thiserror = "2"
+thiserror = { version = "2", default-features = false }
 error-codes = { version = "0.1", path = "../errcode", package = "error-codes", optional = true }
-error-classify-derive = { path = "crates/error-classify-derive", optional = true }
+error-classify-derive = { version = "0.1", path = "crates/error-classify-derive", optional = true }
 serde = { version = "1", features = ["derive"], optional = true }
 
 [dev-dependencies]
@@ -21,7 +21,8 @@ serde_json = "1"
 
 [features]
 default = ["std", "errcode"]
-std = []
+std = ["thiserror/std", "error-codes?/std"]
+alloc = []
 errcode = ["dep:error-codes"]
 derive = ["dep:error-classify-derive"]
 serde = ["dep:serde"]

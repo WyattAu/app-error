@@ -1,3 +1,4 @@
+#![cfg_attr(not(feature = "std"), no_std)]
 #![forbid(unsafe_code)]
 #![deny(missing_docs)]
 
@@ -7,11 +8,14 @@
 //! etc.) and a `RecoveryClass` enum for classifying errors by retry strategy.
 //! Complements `errcode` (HTTP error codes) and `http-errors` (HTTP responses).
 
+extern crate alloc;
+
 /// Recovery classification for errors.
 pub mod recovery;
 /// Common application error variants.
 pub mod variants;
 /// Extension traits for error conversion.
+#[cfg(feature = "std")]
 pub mod ext;
 
 pub use recovery::RecoveryClass;
@@ -36,7 +40,7 @@ pub trait AppError {
     fn recovery_class(&self) -> RecoveryClass;
 
     /// Get a user-facing error message.
-    fn user_message(&self) -> String;
+    fn user_message(&self) -> alloc::string::String;
 
     /// Get the internal kind (stable identifier for logging).
     fn kind(&self) -> &'static str;

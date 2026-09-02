@@ -18,10 +18,11 @@ use crate::recovery::RecoveryClass;
 #[derive(Debug, thiserror::Error)]
 pub enum CommonError {
     /// I/O error (file, network, etc.)
+    #[cfg(feature = "std")]
     #[error("io error: {context}")]
     Io {
         /// Context message
-        context: String,
+        context: alloc::string::String,
         /// Underlying error
         #[source]
         source: std::io::Error,
@@ -29,35 +30,35 @@ pub enum CommonError {
 
     /// Serialization/deserialization error
     #[error("serialization error: {0}")]
-    Serialization(String),
+    Serialization(alloc::string::String),
 
     /// Resource not found
     #[error("not found: {0}")]
-    NotFound(String),
+    NotFound(alloc::string::String),
 
     /// Authentication error
     #[error("authentication error: {0}")]
-    Auth(String),
+    Auth(alloc::string::String),
 
     /// Authorization/permission error
     #[error("forbidden: {0}")]
-    Forbidden(String),
+    Forbidden(alloc::string::String),
 
     /// Configuration error
     #[error("configuration error: {0}")]
-    Config(String),
+    Config(alloc::string::String),
 
     /// Validation error
     #[error("validation error: {0}")]
-    Validation(String),
+    Validation(alloc::string::String),
 
     /// Internal/bug error
     #[error("internal error: {0}")]
-    Internal(String),
+    Internal(alloc::string::String),
 
     /// Timeout error
     #[error("timeout: {0}")]
-    Timeout(String),
+    Timeout(alloc::string::String),
 
     /// Rate limit exceeded
     #[error("rate limited: retry after {retry_after_secs}s")]
@@ -68,16 +69,17 @@ pub enum CommonError {
 
     /// Conflict (resource state conflict)
     #[error("conflict: {0}")]
-    Conflict(String),
+    Conflict(alloc::string::String),
 
     /// Service unavailable
     #[error("service unavailable: {0}")]
-    Unavailable(String),
+    Unavailable(alloc::string::String),
 }
 
 impl CommonError {
     /// Create an IO error with context.
-    pub fn io(context: impl Into<String>, source: std::io::Error) -> Self {
+    #[cfg(feature = "std")]
+    pub fn io(context: impl Into<alloc::string::String>, source: std::io::Error) -> Self {
         Self::Io {
             context: context.into(),
             source,
@@ -85,42 +87,42 @@ impl CommonError {
     }
 
     /// Create a serialization error.
-    pub fn serialization(msg: impl Into<String>) -> Self {
+    pub fn serialization(msg: impl Into<alloc::string::String>) -> Self {
         Self::Serialization(msg.into())
     }
 
     /// Create a not found error.
-    pub fn not_found(msg: impl Into<String>) -> Self {
+    pub fn not_found(msg: impl Into<alloc::string::String>) -> Self {
         Self::NotFound(msg.into())
     }
 
     /// Create an auth error.
-    pub fn auth(msg: impl Into<String>) -> Self {
+    pub fn auth(msg: impl Into<alloc::string::String>) -> Self {
         Self::Auth(msg.into())
     }
 
     /// Create a forbidden error.
-    pub fn forbidden(msg: impl Into<String>) -> Self {
+    pub fn forbidden(msg: impl Into<alloc::string::String>) -> Self {
         Self::Forbidden(msg.into())
     }
 
     /// Create a config error.
-    pub fn config(msg: impl Into<String>) -> Self {
+    pub fn config(msg: impl Into<alloc::string::String>) -> Self {
         Self::Config(msg.into())
     }
 
     /// Create a validation error.
-    pub fn validation(msg: impl Into<String>) -> Self {
+    pub fn validation(msg: impl Into<alloc::string::String>) -> Self {
         Self::Validation(msg.into())
     }
 
     /// Create an internal/bug error.
-    pub fn internal(msg: impl Into<String>) -> Self {
+    pub fn internal(msg: impl Into<alloc::string::String>) -> Self {
         Self::Internal(msg.into())
     }
 
     /// Create a timeout error.
-    pub fn timeout(msg: impl Into<String>) -> Self {
+    pub fn timeout(msg: impl Into<alloc::string::String>) -> Self {
         Self::Timeout(msg.into())
     }
 
@@ -130,12 +132,12 @@ impl CommonError {
     }
 
     /// Create a conflict error.
-    pub fn conflict(msg: impl Into<String>) -> Self {
+    pub fn conflict(msg: impl Into<alloc::string::String>) -> Self {
         Self::Conflict(msg.into())
     }
 
     /// Create a service unavailable error.
-    pub fn unavailable(msg: impl Into<String>) -> Self {
+    pub fn unavailable(msg: impl Into<alloc::string::String>) -> Self {
         Self::Unavailable(msg.into())
     }
 }
@@ -144,6 +146,7 @@ impl crate::AppError for CommonError {
     #[cfg(feature = "errcode")]
     fn code(&self) -> error_codes::ErrorCode {
         match self {
+            #[cfg(feature = "std")]
             Self::Io { .. } => error_codes::ErrorCode::Internal,
             Self::Serialization(_) => error_codes::ErrorCode::BadRequest,
             Self::NotFound(_) => error_codes::ErrorCode::NotFound,
@@ -161,6 +164,7 @@ impl crate::AppError for CommonError {
 
     fn recovery_class(&self) -> RecoveryClass {
         match self {
+            #[cfg(feature = "std")]
             Self::Io { .. } => RecoveryClass::Retryable,
             Self::Serialization(_) => RecoveryClass::Permanent,
             Self::NotFound(_) => RecoveryClass::Permanent,
@@ -176,15 +180,16 @@ impl crate::AppError for CommonError {
         }
     }
 
-    fn user_message(&self) -> String {
+    fn user_message(&self) -> alloc::string::String {
         match self {
-            Self::Internal(_) => "An internal error occurred".to_string(),
-            _ => self.to_string(),
+            Self::Internal(_) => alloc::string::String::from("An internal error occurred"),
+            _ => alloc::format!("{}", self),
         }
     }
 
     fn kind(&self) -> &'static str {
         match self {
+            #[cfg(feature = "std")]
             Self::Io { .. } => "io",
             Self::Serialization(_) => "serialization",
             Self::NotFound(_) => "not_found",
@@ -207,7 +212,7 @@ impl serde::Serialize for CommonError {
         use serde::ser::SerializeMap;
         let mut map = serializer.serialize_map(Some(2))?;
         map.serialize_entry("kind", self.kind())?;
-        map.serialize_entry("message", &self.to_string())?;
+        map.serialize_entry("message", &alloc::format!("{}", self))?;
         map.end()
     }
 }
