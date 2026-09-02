@@ -1,5 +1,5 @@
 [package]
-name = "app-error"
+name = "error-classify"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.85"
@@ -11,7 +11,8 @@ categories = ["rust-patterns"]
 
 [dependencies]
 thiserror = "2"
-error-codes = { path = "../errcode", package = "error-codes", optional = true }
+error-codes = { version = "0.1", path = "../errcode", package = "error-codes", optional = true }
+error-classify-derive = { path = "crates/error-classify-derive", optional = true }
 serde = { version = "1", features = ["derive"], optional = true }
 
 [dev-dependencies]
@@ -22,4 +23,5 @@ serde_json = "1"
 default = ["std", "errcode"]
 std = []
 errcode = ["dep:error-codes"]
+derive = ["dep:error-classify-derive"]
 serde = ["dep:serde"]

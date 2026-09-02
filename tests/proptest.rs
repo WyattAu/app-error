@@ -1,4 +1,4 @@
-use app_error::{AppError, CommonError};
+use error_classify::{AppError, CommonError};
 use proptest::prelude::*;
 
 proptest! {

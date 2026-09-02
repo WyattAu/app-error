@@ -17,6 +17,12 @@ pub mod ext;
 pub use recovery::RecoveryClass;
 pub use variants::CommonError;
 
+#[cfg(feature = "derive")]
+pub use error_classify_derive::AppError;
+
+#[cfg(feature = "errcode")]
+pub use error_codes::ErrorCode;
+
 /// Bridge trait to HTTP error codes and recovery classification.
 ///
 /// Implement this trait on your error types to get automatic

@@ -1,4 +1,4 @@
-use app_error::{AppError, CommonError, RecoveryClass};
+use error_classify::{AppError, CommonError, RecoveryClass};
 
 #[test]
 fn common_error_variants() {

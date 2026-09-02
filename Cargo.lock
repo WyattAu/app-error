@@ -3,17 +3,6 @@
 version = 4
 
 [[package]]
-name = "app-error"
-version = "0.1.0"
-dependencies = [
- "error-codes",
- "proptest",
- "serde",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
 name = "atomic-waker"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -118,6 +107,27 @@ checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
  "windows-sys",
+]
+
+[[package]]
+name = "error-classify"
+version = "0.1.0"
+dependencies = [
+ "error-classify-derive",
+ "error-codes",
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
+name = "error-classify-derive"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.119",
 ]
 
 [[package]]
