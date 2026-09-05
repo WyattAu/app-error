@@ -132,7 +132,9 @@ dependencies = [
 
 [[package]]
 name = "error-codes"
-version = "0.1.0"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a4a50aa80cbb71131b0ec9d917f2ea827c7fcb97eff66c9a2a90d3012926e437"
 dependencies = [
  "axum",
  "serde",

@@ -11,7 +11,7 @@ categories = ["rust-patterns"]
 
 [dependencies]
 thiserror = { version = "2", default-features = false }
-error-codes = { version = "0.1", path = "../errcode", package = "error-codes", optional = true }
+error-codes = { version = "1.0", package = "error-codes", optional = true }
 error-classify-derive = { version = "0.1", path = "crates/error-classify-derive", optional = true }
 serde = { version = "1", features = ["derive"], optional = true }
 
