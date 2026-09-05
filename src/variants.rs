@@ -209,6 +209,7 @@ impl crate::AppError for CommonError {
 #[cfg(feature = "serde")]
 impl serde::Serialize for CommonError {
     fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
+        use crate::AppError;
         use serde::ser::SerializeMap;
         let mut map = serializer.serialize_map(Some(2))?;
         map.serialize_entry("kind", self.kind())?;
