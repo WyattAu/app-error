@@ -28,7 +28,10 @@ fn common_error_variants() {
 #[cfg(feature = "std")]
 #[test]
 fn common_error_io_variant() {
-    let err = CommonError::io("test", std::io::Error::new(std::io::ErrorKind::NotFound, "not found"));
+    let err = CommonError::io(
+        "test",
+        std::io::Error::new(std::io::ErrorKind::NotFound, "not found"),
+    );
     assert!(!err.kind().is_empty());
     assert!(!err.to_string().is_empty());
     assert!(!err.user_message().is_empty());
@@ -36,13 +39,28 @@ fn common_error_io_variant() {
 
 #[test]
 fn recovery_class_mapping() {
-    assert_eq!(CommonError::not_found("test").recovery_class(), RecoveryClass::Permanent);
-    assert_eq!(CommonError::auth("test").recovery_class(), RecoveryClass::UserAction);
-    assert_eq!(CommonError::internal("test").recovery_class(), RecoveryClass::Bug);
-    assert_eq!(CommonError::timeout("test").recovery_class(), RecoveryClass::Retryable);
+    assert_eq!(
+        CommonError::not_found("test").recovery_class(),
+        RecoveryClass::Permanent
+    );
+    assert_eq!(
+        CommonError::auth("test").recovery_class(),
+        RecoveryClass::UserAction
+    );
+    assert_eq!(
+        CommonError::internal("test").recovery_class(),
+        RecoveryClass::Bug
+    );
+    assert_eq!(
+        CommonError::timeout("test").recovery_class(),
+        RecoveryClass::Retryable
+    );
 
     #[cfg(feature = "std")]
-    assert_eq!(CommonError::io("test", std::io::Error::new(std::io::ErrorKind::Other, "err")).recovery_class(), RecoveryClass::Retryable);
+    assert_eq!(
+        CommonError::io("test", std::io::Error::other("err")).recovery_class(),
+        RecoveryClass::Retryable
+    );
 }
 
 #[test]
@@ -51,7 +69,7 @@ fn retryable_checks() {
     assert!(CommonError::internal("test").is_bug());
 
     #[cfg(feature = "std")]
-    assert!(CommonError::io("test", std::io::Error::new(std::io::ErrorKind::Other, "err")).is_retryable());
+    assert!(CommonError::io("test", std::io::Error::other("err")).is_retryable());
 }
 
 #[test]

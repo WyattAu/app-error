@@ -10,13 +10,13 @@
 
 extern crate alloc;
 
+/// Extension traits for error conversion.
+#[cfg(feature = "std")]
+pub mod ext;
 /// Recovery classification for errors.
 pub mod recovery;
 /// Common application error variants.
 pub mod variants;
-/// Extension traits for error conversion.
-#[cfg(feature = "std")]
-pub mod ext;
 
 pub use recovery::RecoveryClass;
 pub use variants::CommonError;
