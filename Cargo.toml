@@ -8,6 +8,7 @@ description = "Common application error variants with recovery classification"
 repository = "https://github.com/WyattAu/app-error"
 keywords = ["error", "thiserror", "recovery", "application"]
 categories = ["rust-patterns"]
+exclude = ["/target"]
 
 [dependencies]
 thiserror = { version = "2", default-features = false }
@@ -26,3 +27,7 @@ alloc = []
 errcode = ["dep:error-codes"]
 derive = ["dep:error-classify-derive"]
 serde = ["dep:serde"]
+
+[lints.clippy]
+unwrap_used = "warn"
+expect_used = "warn"
