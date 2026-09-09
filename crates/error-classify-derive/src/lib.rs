@@ -34,12 +34,9 @@ pub fn derive_app_error(input: TokenStream) -> TokenStream {
     let variants = match &input.data {
         syn::Data::Enum(data) => &data.variants,
         _ => {
-            return syn::Error::new_spanned(
-                &input,
-                "AppError can only be derived for enums",
-            )
-            .to_compile_error()
-            .into();
+            return syn::Error::new_spanned(&input, "AppError can only be derived for enums")
+                .to_compile_error()
+                .into();
         }
     };
 
