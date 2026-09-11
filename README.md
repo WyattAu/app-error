@@ -1,5 +1,9 @@
 # app-error
 
+[![docs.rs](https://docs.rs/error-classify/badge.svg)](https://docs.rs/error-classify)
+[![crates.io](https://img.shields.io/crates/v/error-classify.svg)](https://crates.io/crates/error-classify)
+[![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
+
 Common application error variants with recovery classification.
 
 `app-error` (package `error-classify`) gives you a `CommonError` enum with the
