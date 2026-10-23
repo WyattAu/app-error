@@ -1,11 +1,11 @@
-# Threat Model — app-error
+# Threat Model: app-error
 
 Reference: STRIDE. Scope: the crate's public API surface. Trust boundary:
 (1) bytes/inputs entering public constructors and parsers, (2) concurrent
-callers sharing interior state. app-error is an in-process library — it opens
+callers sharing interior state. app-error is an in-process library: it opens
 no sockets and inherits the embedding process's trust domain.
 
-Purpose: Error classification toolkit (`error-classify`) — derive macro + traits for retryability and error classes
+Purpose: Error classification toolkit (`error-classify`): derive macro + traits for retryability and error classes
 
 ## Assets
 

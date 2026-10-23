@@ -1,9 +1,9 @@
-# Requirements — app-error
+# Requirements: app-error
 
 Numbered, testable requirements. Every requirement maps to at least one named
 test or doc-comment contract; security-relevant items cite threat-model rows.
 
-Scope: Error classification toolkit (`error-classify`) — derive macro + traits for retryability and error classes
+Scope: Error classification toolkit (`error-classify`): derive macro + traits for retryability and error classes
 
 ## Functional
 

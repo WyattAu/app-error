@@ -46,7 +46,7 @@ pub enum MyError {
 
 ## Relationship with `errcode` and `http-errors`
 
-These three crates cover separate layers — `app-error` is unchanged by the
+These three crates cover separate layers: `app-error` is unchanged by the
 merges below:
 
 | Crate | Role |
@@ -64,7 +64,7 @@ Concretely:
   variants, `status_code()` alias, `as_str()` code strings, and the
   `HttpError` trait now live in `errcode`). Depending on `http-errors`
   still works via its shim, but new code should depend on `errcode`
-  directly — `app-error` itself only ever talks to `errcode`.
+  directly: `app-error` itself only ever talks to `errcode`.
 - Recovery classification (`RecoveryClass::Retryable` / `UserAction` /
   `Permanent` / `Bug` / `Reconciliation`) exists only here; neither
   `errcode` nor `http-errors` provides it.
