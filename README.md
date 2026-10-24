@@ -1,4 +1,5 @@
 # app-error
+[![Estate integration](https://github.com/WyattAu/estate-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/WyattAu/estate-integration/actions/workflows/ci.yml)
 
 [![docs.rs](https://docs.rs/error-classify/badge.svg)](https://docs.rs/error-classify)
 [![crates.io](https://img.shields.io/crates/v/error-classify.svg)](https://crates.io/crates/error-classify)
